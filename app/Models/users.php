@@ -19,7 +19,6 @@ class users extends Model
         'location',
         'interests',
         'social_links',
-        'is_verified',
     ];
     /** @use HasFactory<\Database\Factories\UsersFactory> */
     use HasFactory;
