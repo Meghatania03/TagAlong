@@ -6,6 +6,8 @@ use App\Models\users;
 use App\Http\Requests\StoreusersRequest;
 use App\Http\Requests\UpdateusersRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -65,7 +67,7 @@ public function store(Request $request)
     Users::create([
         'name' => $request->name,
         'email' => $request->email,
-        'password' => $request->password,
+        'password' => Hash::make($request->password), // <-- Hash the password
         'gender' => $request->gender,
         'age' => $request->age,
         'phone' => $request->phone,
@@ -112,4 +114,40 @@ public function store(Request $request)
     {
         //
     }
+
+
+ // Show login page
+    public function showLoginForm()
+    {
+        return view('login');
+    }
+
+    // Handle login
+    public function login(Request $request)
+    {
+        // Validate input
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        // Attempt login
+        if (auth::attempt($credentials)) {
+            $request->session()->regenerate(); // prevent session fixation
+            return redirect()->intended(route('dashboard'));
+        }
+
+        // Login failed
+        return back()->withErrors([
+            'email' => 'Invalid credentials',
+        ])->onlyInput('email');
+    }
+
+    // Example dashboard after login
+    public function dashboard()
+    {
+        return view('dashboard'); // Create a simple dashboard.blade.php
+    }
 }
+
+

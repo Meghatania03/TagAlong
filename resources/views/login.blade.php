@@ -27,7 +27,7 @@
         <p class="text-gray-500 text-center mb-6">Log in to start finding your activity buddies</p>
 
         {{-- Login Form --}}
-        <form method="POST" action="" class="space-y-5">
+        <form method="POST" action="{{ route('login.submit') }}" class="space-y-5">
             @csrf
 
             {{-- Email --}}
