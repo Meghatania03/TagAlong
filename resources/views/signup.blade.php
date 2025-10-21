@@ -30,6 +30,16 @@
         <form method="POST" action="{{ route('signup.submit') }}" class="space-y-5" enctype="multipart/form-data">
             @csrf
 
+            @if ($errors->any())
+                <div class="mb-4">
+                    <ul class="text-red-600 text-sm">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             {{-- Name --}}
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
