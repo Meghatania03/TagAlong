@@ -12,7 +12,9 @@
         <p class="mt-4 text-lg md:text-xl text-indigo-100 drop-shadow-sm">
             Discover exciting activities happening around you!
         </p>
-    </div>
+        <a href="{{ route('events.filter') }}" class="inline-block mt-4 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300">
+            Filter Events
+        </a>
 
     {{-- Events Grid --}}
      <div class="max-w-7xl w-full rounded-3xl shadow-2xl p-10 transform transition duration-500 hover:scale-[1.01]"

@@ -25,6 +25,7 @@ Route::post('/login', [UsersController::class, 'login'])->name('login.submit');
 //navbar routes
 Route::middleware(['checkUser'])->group(function () {
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
+    Route::get('/events/filter', [EventController::class, 'filter'])->name('events.filter');
     Route::get('/my-events', [EventController::class, 'myEvents'])->name('events.my');
     Route::get('/interested', [EventController::class, 'interested'])->name('events.interested');
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
@@ -53,6 +54,21 @@ Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('eve
 
 //view interested people for an event
 Route::get('/events/{event}/interested-people', [EventController::class, 'interestedPeople'])->name('events.interestedPeople');
+
+
+
+Route::middleware('auth')->group(function () {
+    // inbox / conversations — provide the name expected by your layout
+    Route::get('/messages', [MessageController::class, 'list'])->name('messages.index');
+
+    // chat with a partner (optional)
+    Route::get('/messages/{partner}', [MessageController::class, 'index'])->name('messages.chat');
+
+    Route::get('/messages/fetch/{user}', [MessageController::class, 'fetch'])->name('messages.fetch');
+    Route::post('/messages/send', [MessageController::class, 'send'])->name('messages.send');
+    Route::get('/messages/list/{user}', [MessageController::class, 'list'])->name('messages.list');
+});
+
 
 
 

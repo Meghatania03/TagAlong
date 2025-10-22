@@ -37,5 +37,12 @@ class Kernel extends HttpKernel
         ],
     ];
 
+    /**
+     * The application's middleware aliases.
+     */
+    protected $middlewareAliases = [
+        'checkUserLoggedIn' => \App\Http\Middleware\CheckUserLoggedIn::class,
+    ];
+
 
 }

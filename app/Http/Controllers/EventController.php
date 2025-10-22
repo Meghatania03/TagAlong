@@ -11,10 +11,41 @@ use Illuminate\Support\Facades\Auth;
 class EventController extends Controller
 {
     // All events (main feed)
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::withCount('interestedUsers')->with('user')->latest()->get();
+        $query = Event::withCount('interestedUsers')->with('user');
+
+        // Apply filters
+        if ($request->filled('gender')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('gender', $request->gender);
+            });
+        }
+
+        if ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
+        }
+
+        if ($request->filled('age_min')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('age', '>=', $request->age_min);
+            });
+        }
+
+        if ($request->filled('age_max')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('age', '<=', $request->age_max);
+            });
+        }
+
+        $events = $query->latest()->get();
         return view('events.all', compact('events'));
+    }
+
+    // Show filter form
+    public function filter()
+    {
+        return view('events.filter');
     }
 
     // Events created by logged-in user
@@ -47,16 +78,15 @@ class EventController extends Controller
 
     public function interestedPeople($id)
     {
-        $event = Event::findOrFail($id);
+        // load the event and its interested users (assumes Event::interestedUsers relationship exists)
+        $event = Event::with('interestedUsers')->findOrFail($id);
 
-        // Optional: check if the authenticated user owns the event
-        if ($event->user_id !== auth()->id()) {
-            abort(403);
-        }
+        // map to a collection of Users
+        $people = $event->interestedUsers;
 
-        $interestedUsers = $event->interestedUsers;
 
-        return view('events.interested_people', compact('event', 'interestedUsers'));
+        // pass $people to the view (and event if the view needs it)
+        return view('events.interested_people', compact('event','people'));
     }
 
 
