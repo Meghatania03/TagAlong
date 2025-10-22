@@ -45,6 +45,20 @@ class EventController extends Controller
         return redirect()->route('events.my')->with('success', 'Event deleted successfully!');
     }
 
+    public function interestedPeople($id)
+    {
+        $event = Event::findOrFail($id);
+
+        // Optional: check if the authenticated user owns the event
+        if ($event->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $interestedUsers = $event->interestedUsers;
+
+        return view('events.interested_people', compact('event', 'interestedUsers'));
+    }
+
 
 
     public function toggleInterest(Event $event)

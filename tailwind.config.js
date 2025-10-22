@@ -6,7 +6,11 @@ export default {
     "./resources/**/*.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'serif': ['Playfair Display', 'serif'],
+      },
+    },
   },
   plugins: [],
 }

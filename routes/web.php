@@ -44,8 +44,15 @@ Route::post('/my-events', [EventController::class, 'store'])->name('events.store
 //show user profile
 Route::get('/users/{id}', [UsersController::class, 'show_profile'])->name('users.show_profile');
 
+//edit user profile
+Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
+Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
+
 //delete events
 Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
+
+//view interested people for an event
+Route::get('/events/{event}/interested-people', [EventController::class, 'interestedPeople'])->name('events.interestedPeople');
 
 
 

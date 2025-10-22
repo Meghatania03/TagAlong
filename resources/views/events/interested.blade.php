@@ -3,39 +3,71 @@
 @section('title','Interested Events')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 py-10 px-6">
-    <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Events You're Interested In</h2>
+<div class="min-h-screen flex flex-col justify-center items-center px-4"
+     style="background: rgba(157, 175, 255, 1);">
 
+    {{-- Header --}}
+    <div class="text-center mb-10">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">Interested Events</h1>
+        <p class="mt-4 text-lg md:text-xl text-indigo-100 drop-shadow-sm">
+            Events you’ve marked interest in
+        </p>
+    </div>
+
+    {{-- Events Grid --}}
+    <div class="max-w-7xl w-full rounded-3xl shadow-2xl p-10 transform transition duration-500 hover:scale-[1.01]"
+         style="background: rgba(182, 195, 254, 1);">
         @if($events->count() > 0)
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             @foreach($events as $event)
-            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col">
-                <div class="p-4 flex flex-col flex-grow">
-                    <!-- Title -->
-                    <h3 class="text-lg font-semibold text-gray-800 mb-1">{{ $event->title }}</h3>
+            <div class="rounded-2xl shadow-md hover:shadow-2xl hover:scale-105 transition duration-300 overflow-hidden flex flex-col border border-gray-100"
+                 style="background: rgba(228, 235, 249, 1);">
 
-                    <!-- Description -->
-                    <p class="text-gray-600 text-sm mb-3 line-clamp-3">
-                        {{ $event->description }}
-                    </p>
+                {{-- Event Content --}}
+                <div class="p-5 flex flex-col flex-grow">
+                    {{-- Title --}}
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">{{ $event->title }}</h3>
 
-                    <!-- Location and Time -->
-                    <div class="text-gray-700 text-sm mb-3">
-                        <p><span class="font-semibold">Location:</span> {{ $event->location ?? 'Not specified' }}</p>
-                        <p><span class="font-semibold">Time:</span> {{ \Carbon\Carbon::parse($event->starts_at)->format('M d, Y h:i A') }}</p>
+                    {{-- Creator Info --}}
+                    @if($event->user && $event->user->profile_picture)
+                    <div class="flex items-center text-sm text-gray-500 mb-3">
+                        <img src="{{ asset('storage/' . $event->user->profile_picture) }}" 
+                             class="w-8 h-8 rounded-full object-cover mr-2 border border-gray-200">
+                        <span>
+                            By
+                            @if($event->user)
+                            <a href="{{ route('users.show_profile', $event->user_id) }}" 
+                               class="text-indigo-600 hover:text-indigo-800 font-semibold">
+                                {{ $event->user->name }}
+                            </a>
+                            @else
+                            <span class="italic">Unknown</span>
+                            @endif
+                        </span>
+                    </div>
+                    @endif
+
+                    {{-- Description --}}
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ $event->description }}</p>
+
+                    {{-- Details --}}
+                    <div class="text-gray-700 text-sm mb-4 space-y-1">
+                        <p><span class="font-semibold">📍 Location:</span> {{ $event->location ?? 'Not specified' }}</p>
+                        <p><span class="font-semibold">🕒 Time:</span> {{ \Carbon\Carbon::parse($event->starts_at)->format('M d, Y h:i A') }}</p>
                     </div>
 
-                    <!-- Interested Button (optional to allow unmarking) -->
-                    <form method="POST" action="{{ route('events.toggleInterest', $event->id) }}">
+                    {{-- Interested Button --}}
+                    <form method="POST" action="{{ route('events.toggleInterest', $event->id) }}" class="mt-auto">
                         @csrf
                         @php
-                        $isInterested = $event->interestedUsers->contains(auth()->id());
+                            $isInterested = $event->interestedUsers->contains(auth()->id());
                         @endphp
-                        <button type="submit" class="w-full font-semibold py-1.5 px-3 rounded-lg transition duration-200 flex items-center justify-center text-sm
-                                    {{ $isInterested ? 'bg-gray-400 text-white hover:bg-gray-500' : 'bg-indigo-600 text-white hover:bg-indigo-700' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a6.979 6.979 0 00-4.926 2.07 6.972 6.972 0 00-2.072 4.927c0 4.418 7 10.504 7 10.504s7-6.086 7-10.504a6.972 6.972 0 00-2.072-4.927A6.979 6.979 0 0011.48 3.5z" />
+                        <button type="submit" 
+                            class="w-full font-semibold py-2 rounded-xl flex items-center justify-center transition duration-300 text-sm shadow-md
+                            {{ $isInterested ? 'bg-gray-400 text-white hover:bg-gray-500' : 'bg-indigo-600 text-white hover:bg-indigo-700' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                      d="M11.48 3.499a6.979 6.979 0 00-4.926 2.07 6.972 6.972 0 00-2.072 4.927c0 4.418 7 10.504 7 10.504s7-6.086 7-10.504a6.972 6.972 0 00-2.072-4.927A6.979 6.979 0 0011.48 3.5z" />
                             </svg>
                             Interested ({{ $event->interestedUsers->count() }})
                         </button>
@@ -45,7 +77,7 @@
             @endforeach
         </div>
         @else
-        <p class="text-center text-gray-500 text-lg">You haven’t marked interest in any events yet.</p>
+        <p class="text-center text-gray-600 text-lg mt-10">You haven’t marked interest in any events yet.</p>
         @endif
     </div>
 </div>

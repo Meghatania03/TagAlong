@@ -10,7 +10,8 @@
 </head>
 <body class="font-sans">
 
-<div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex flex-col justify-center items-center px-4">
+<div class="min-h-screen flex flex-col justify-center items-center px-4"
+     style="background: #62b9deff; background: radial-gradient(circle, rgba(177, 226, 247, 1) 0%, rgba(112, 130, 224, 1) 100%);">
 
     {{-- Header --}}
     <div class="text-center mb-10">
@@ -21,7 +22,7 @@
     </div>
 
     {{-- Signup Card --}}
-    <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-10 transform transition duration-500 hover:scale-105">
+    <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-10">
         
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Create Your Account</h2>
         <p class="text-gray-500 text-center mb-6">Sign up to start finding activity partners</p>

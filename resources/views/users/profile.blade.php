@@ -79,7 +79,8 @@
         @if($user->events->count())
         <div class="grid md:grid-cols-2 gap-6">
             @foreach($user->events as $event)
-            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300 flex flex-col">
+            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300 flex flex-col"
+            style="background: rgba(228, 235, 249, 1);">
                 <h3 class="text-xl font-bold text-indigo-600 mb-2">{{ $event->title }}</h3>
                 <p class="text-gray-600 mb-2"><span class="font-medium">Location:</span> {{ $event->location }}</p>
                 <p class="text-gray-600 mb-2"><span class="font-medium">Time:</span> {{ $event->starts_at }}</p>

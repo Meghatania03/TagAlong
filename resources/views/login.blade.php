@@ -10,19 +10,22 @@
 </head>
 <body class="font-sans">
 
-<div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex flex-col justify-center items-center px-4">
-
+<div class="min-h-screen flex flex-col justify-center items-center px-4"
+     style="background: #62b9deff; background: radial-gradient(circle, rgba(177, 226, 247, 1) 0%, rgba(112, 130, 224, 1) 100%);">
     {{-- Header --}}
     <div class="text-center mb-10">
         <h1 class="text-6xl font-extrabold text-white drop-shadow-lg">TagAlong</h1>
-        <p class="mt-4 text-xl md:text-2xl text-indigo-100 drop-shadow-sm">
+        <p class="mt-4 text-xl md:text-2xl text-indigo-100">
             Find buddies to do everyday activities together!
         </p>
     </div>
 
     {{-- Login Card --}}
-    <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 transform transition duration-500 hover:scale-105">
-        
+<div class="max-w-md w-full rounded-3xl shadow-2xl p-8"
+     style="background: rgba(255, 255, 255, 1); backdrop-filter: blur(12px);">
+
+
+
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Welcome Back!</h2>
         <p class="text-gray-500 text-center mb-6">Log in to start finding your activity buddies</p>
 
@@ -45,6 +48,14 @@
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <input id="password" name="password" type="password" required
                     class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-3">
+            </div>
+
+            {{-- Remember Me --}}
+            <div class="flex items-center">
+                <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                <label for="remember" class="ml-2 block text-sm text-gray-900">
+                    Remember me
+                </label>
             </div>
 
             {{-- Forgot password --}}
